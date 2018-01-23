@@ -21,7 +21,7 @@ fi
 BACKUP_SOURCE_URL=`heroku pg:backups:url --app $APP`
 BACKUP_DATE_TIME="$(echo $BACKUP_SOURCE_URL | cut -d/ -f5 | perl -pe 's/%3A/-/g')"
 
-BACKUP_FILE_NAME="$APP-$DATABASE-BACKUP_DATE_TIME.dump"
+BACKUP_FILE_NAME="$APP-$DATABASE-$BACKUP_DATE_TIME.dump"
 
 if [[ -z "$SKIP_RUN_BACKUP" ]]; then
 	heroku pg:backups capture $DATABASE --app $APP

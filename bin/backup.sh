@@ -18,12 +18,6 @@ if [[ -z "$S3_BUCKET_PATH" ]]; then
   exit 1
 fi
 
-#install aws-cli
-curl https://s3.amazonaws.com/aws-cli/awscli-bundle.zip -o awscli-bundle.zip
-unzip awscli-bundle.zip
-chmod +x ./awscli-bundle/install
-./awscli-bundle/install -i /tmp/aws
-
 BACKUP_FILE_NAME="$(date +"%Y-%m-%d-%H-%M")-$APP-$DATABASE.dump"
 
 heroku pg:backups capture $DATABASE --app $APP
@@ -35,7 +29,7 @@ if [[ -z "$NOGZIP" ]]; then
   FINAL_FILE_NAME=$BACKUP_FILE_NAME.gz
 fi
 
-/tmp/aws/bin/aws s3 cp $FINAL_FILE_NAME s3://$S3_BUCKET_PATH/$APP/$DATABASE/$FINAL_FILE_NAME
+aws s3 cp $FINAL_FILE_NAME s3://$S3_BUCKET_PATH/$APP/$DATABASE/$FINAL_FILE_NAME
 
 echo "backup $FINAL_FILE_NAME complete"
 

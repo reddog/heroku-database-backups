@@ -18,14 +18,14 @@ if [[ -z "$S3_BUCKET_PATH" ]]; then
   exit 1
 fi
 
+if [[ -z "$SKIP_RUN_BACKUP" ]]; then
+	heroku pg:backups capture $DATABASE --app $APP
+fi
+
 BACKUP_SOURCE_URL=`heroku pg:backups:url --app $APP`
 BACKUP_DATE_TIME="$(echo $BACKUP_SOURCE_URL | cut -d/ -f5 | perl -pe 's/%3A/-/g')"
 
 BACKUP_FILE_NAME="$BACKUP_DATE_TIME.dump"
-
-if [[ -z "$SKIP_RUN_BACKUP" ]]; then
-	heroku pg:backups capture $DATABASE --app $APP
-fi
 
 curl -o $BACKUP_FILE_NAME $BACKUP_SOURCE_URL
 FINAL_FILE_NAME=$BACKUP_FILE_NAME

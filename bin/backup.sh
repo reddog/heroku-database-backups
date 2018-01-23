@@ -40,4 +40,3 @@ aws s3 cp $FINAL_FILE_NAME s3://$S3_BUCKET_PATH/$APP/$DATABASE/$FINAL_FILE_NAME
 # no need to worry about deleting the local datbase backup file - the dyno (and its storage) will be destroyed on completion
 
 echo "backup $FINAL_FILE_NAME complete"
-

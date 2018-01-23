@@ -27,7 +27,7 @@ if [[ -z "$SKIP_RUN_BACKUP" ]]; then
 	heroku pg:backups capture $DATABASE --app $APP
 fi
 
-curl -o $BACKUP_FILE_NAME BACKUP_SOURCE_URL
+curl -o $BACKUP_FILE_NAME $BACKUP_SOURCE_URL
 FINAL_FILE_NAME=$BACKUP_FILE_NAME
 
 if [[ -z "$NOGZIP" ]]; then

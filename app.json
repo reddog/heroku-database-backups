@@ -2,6 +2,7 @@
   "name": "Offsite Postgres Backup",
   "description": "Schedule automatic offsite backup of app's Postgres database",
   "repository": "https://github.com/reddog/heroku-database-backups",
+  "website": "https://small-sharp-tool.com/",
   "keywords": ["devops", "postgres", "backup", "offsite", "external", "s3"],
   "buildpacks": [
     {

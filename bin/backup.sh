@@ -18,10 +18,16 @@ if [[ -z "$S3_BUCKET_PATH" ]]; then
   exit 1
 fi
 
-BACKUP_FILE_NAME="$(date +"%Y-%m-%d-%H-%M")-$APP-$DATABASE.dump"
+if [[ -z "$SKIP_RUN_BACKUP" ]]; then
+	heroku pg:backups capture $DATABASE --app $APP
+fi
 
-heroku pg:backups capture $DATABASE --app $APP
-curl -o $BACKUP_FILE_NAME `heroku pg:backups:url --app $APP`
+BACKUP_SOURCE_URL=`heroku pg:backups:url --app $APP`
+BACKUP_DATE_TIME="$(echo $BACKUP_SOURCE_URL | cut -d/ -f5 | perl -pe 's/%3A/-/g')"
+
+BACKUP_FILE_NAME="$BACKUP_DATE_TIME.dump"
+
+curl -o $BACKUP_FILE_NAME $BACKUP_SOURCE_URL
 FINAL_FILE_NAME=$BACKUP_FILE_NAME
 
 if [[ -z "$NOGZIP" ]]; then
@@ -31,5 +37,6 @@ fi
 
 aws s3 cp $FINAL_FILE_NAME s3://$S3_BUCKET_PATH/$APP/$DATABASE/$FINAL_FILE_NAME
 
-echo "backup $FINAL_FILE_NAME complete"
+# no need to worry about deleting the local datbase backup file - the dyno (and its storage) will be destroyed on completion
 
+echo "backup $FINAL_FILE_NAME complete"

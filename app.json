@@ -1,0 +1,37 @@
+{
+  "name": "Offsite Postgres Backup",
+  "description": "Schedule automatic offsite backup of app's Postgres database",
+  "repository": "https://github.com/reddog/heroku-database-backups",
+  "keywords": ["devops", "postgres", "backup", "offsite", "external", "s3"],
+  "buildpacks": [
+    {
+      "url": "heroku/python"
+    },
+    {
+      "url": "https://github.com/heroku/heroku-buildpack-cli"
+    }
+  ],
+  "env": {
+    "HEROKU_API_KEY": {
+      "description": "Your Heroku API key. Get this by installing the Heroku CLI tool, log in from the command line and run 'heroku auth:token'",
+      "value": "Your HEROKU_API_KEY",
+    },
+    "AWS_ACCESS_KEY_ID": {
+      "description": "AWS Access Key ID of the IAM user with permission to PutObject in designated S3 bucket",
+      "value": "Your AWS_ACCESS_KEY_ID",
+    },
+    "AWS_SECRET_ACCESS_KEY": {
+      "description": "AWS Secret Access Key (matches with AWS Access Key ID)",
+      "value": "Your AWS_SECRET_ACCESS_KEY",
+    },
+    "AWS_DEFAULT_REGION": {
+      "description": "AWS region to use, eg 'eu-west-2'",
+      "value": "Your AWS_DEFAULT_REGION",
+    },
+    "S3_BUCKET_PATH": {
+      "description": "Setting the S3 bucket path here will use this path as a default for all backups.  This setting can be overridden on the command line when performing a backup.  Include just the bucket name here, no leading or trailing slashes.",
+      "required": false,
+      "value": "Your S3_BUCKET_PATH",
+    },
+  },
+}

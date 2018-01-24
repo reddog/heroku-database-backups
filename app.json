@@ -34,4 +34,5 @@
       "value": "Your S3_BUCKET_PATH",
     },
   },
+  "success_url": "https://www.google.co.uk",
 }
